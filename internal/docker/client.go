@@ -433,7 +433,7 @@ func (c *Client) CreateContainer(ctx context.Context, server *models.Server, ser
 
 	config := &container.Config{
 		Image:        imageName,
-		Env:          env,
+		Env:          append(env, "NVIDIA_VISIBLE_DEVICES=all", "NVIDIA_DRIVER_CAPABILITIES=compute,utility"),
 		Tty:          true,
 		AttachStdout: true,
 		AttachStderr: true,
@@ -459,7 +459,7 @@ func (c *Client) CreateContainer(ctx context.Context, server *models.Server, ser
         DeviceRequests: []container.DeviceRequest{
             {
                 Driver:       "nvidia",
-                Count:        -1, // all GPUs; or set a specific number
+                Count:        1, // all GPUs; or set a specific number
                 Capabilities: [][]string{{"compute", "utility"}},
                 // "compute" gives CUDA + OpenCL access
             },
