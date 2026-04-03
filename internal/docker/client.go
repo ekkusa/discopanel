@@ -456,7 +456,15 @@ func (c *Client) CreateContainer(ctx context.Context, server *models.Server, ser
 		Resources: container.Resources{
 			Memory:     int64(server.Memory) * 1024 * 1024,
 			MemorySwap: int64(server.Memory) * 1024 * 1024,
-		},
+        DeviceRequests: []container.DeviceRequest{
+            {
+                Driver:       "nvidia",
+                Count:        -1, // all GPUs; or set a specific number
+                Capabilities: [][]string{{"compute", "utility"}},
+                // "compute" gives CUDA + OpenCL access
+            },
+        },
+    },
 		LogConfig: container.LogConfig{
 			Type:   "json-file",
 			Config: map[string]string{"max-size": "10m", "max-file": "3"},
