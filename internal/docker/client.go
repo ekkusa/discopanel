@@ -459,7 +459,7 @@ func (c *Client) CreateContainer(ctx context.Context, server *models.Server, ser
         DeviceRequests: []container.DeviceRequest{
             {
                 Driver:       "nvidia",
-                Count:        1, // all GPUs; or set a specific number
+                Count:        0, // all GPUs; or set a specific number
                 Capabilities: [][]string{{"compute", "utility"}},
                 // "compute" gives CUDA + OpenCL access
             },
